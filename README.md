@@ -93,3 +93,6 @@ Essa verificação ajuda a impedir arquivos indevidos e padrões conhecidos de c
 - **Dados:** ESPN, Jolpica F1, Open-Meteo e feeds públicos YouTube.
 
 Escudos, capas, miniaturas e nomes de serviços pertencem aos respectivos titulares. Veja [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Sem afiliação com TCL, Google, Spotify, YouTube ou os campeonatos e equipes citados.
+
+<img width="1280" height="720" alt="image" src="https://github.com/user-attachments/assets/d372d26e-bb92-4f29-b168-1b4472aa1910" />
+
