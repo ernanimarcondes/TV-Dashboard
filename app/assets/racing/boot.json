@@ -1,0 +1,50 @@
+{
+  "pal": [
+    {
+      "name": "Flamengo",
+      "id": "819",
+      "logo": "logo-soccer-819.png",
+      "rank": "1",
+      "value": "76"
+    },
+    {
+      "name": "Palmeiras",
+      "id": "2029",
+      "logo": "logo-soccer-2029.png",
+      "rank": "2",
+      "value": "73"
+    },
+    {
+      "name": "Cruzeiro",
+      "id": "2022",
+      "logo": "logo-soccer-2022.png",
+      "rank": "3",
+      "value": "60"
+    }
+  ],
+  "nba": [
+    {
+      "name": "Celtics",
+      "id": "2",
+      "logo": "logo-nba-2.png",
+      "rank": "1",
+      "value": "11–2"
+    },
+    {
+      "name": "76ers",
+      "id": "20",
+      "logo": "logo-nba-20.png",
+      "rank": "2",
+      "value": "11–3"
+    },
+    {
+      "name": "Pistons",
+      "id": "8",
+      "logo": "logo-nba-8.png",
+      "rank": "3",
+      "value": "8–4"
+    }
+  ],
+  "videos": [],
+  "at": "16/11/2026"
+}

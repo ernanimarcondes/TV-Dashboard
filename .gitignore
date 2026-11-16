@@ -1,0 +1,35 @@
+# Local configuration and credentials
+config.properties
+.env
+.env.*
+!.env.example
+.local/
+*.keystore
+*.jks
+*.p12
+*.pem
+*.key
+*.idsig
+app/assets/racing/youtube-channels.json
+app/assets/racing/video-*
+
+# Build output, captures, logs and account/session data
+out/
+out-personal/
+dist/
+*.apk
+*.aab
+*.log
+*.mp4
+*.webm
+*.har
+*.db
+*.sqlite*
+screenshots/
+captures/
+cache/
+secrets/
+__pycache__/
+.DS_Store
+.idea/
+.vscode/
