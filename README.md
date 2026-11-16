@@ -1,6 +1,6 @@
 # TV-Dashboard
 
-Uma tela inicial gamer para Android TV, com fundo preto, cartões em grafite, rosa e roxo, esportes, clima, vídeos de canais escolhidos e a música em reprodução no Spotify da própria TV.
+Uma tela inicial para Android TV, com fundo preto, cartões em grafite, rosa e roxo, esportes, clima, vídeos de canais escolhidos e a música em reprodução no Spotify da própria TV.
 
 > **Baseado no [Free My TV, de simbasjungles e seus colaboradores](https://github.com/simbasjungles/free-my-tv).** Este projeto adapta a interface Android e mantém a infraestrutura de instalação, alternância da tela inicial e recuperação do projeto original. A licença MIT original está preservada em [LICENSE](LICENSE).
 
