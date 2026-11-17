@@ -17,9 +17,11 @@ A primeira configuração de esportes é Palmeiras, Celtics e F1. O código perm
 
 ## Perfis de painel
 
-Em **Ajustes → Selecionar painel**, escolha **Dash Pessoal**, **Esportes Dash** ou **Original**. O Dash Pessoal preserva o painel existente. Esportes Dash é, por enquanto, uma tela de preparação para o próximo painel. O aplicativo lembra o último perfil escolhido; os aplicativos e as contas continuam compartilhados.
+Em **Ajustes → Selecionar painel**, escolha **Dash Pessoal**, **Esportes Dash** ou **Original**. O Dash Pessoal preserva o painel existente. Esportes Dash é um perfil de exemplo para demonstrar a inclusão de outros layouts. A versão esportiva completa e independente está em [Esportes-Dash](https://github.com/ernanimarcondes/Esportes-Dash). O aplicativo lembra o último perfil escolhido; os aplicativos e as contas continuam compartilhados.
 
 A escolha também fica em **Free My TV → Home Screen**. Trocar entre os dois painéis não altera o modo da TV; Original continua usando o mecanismo de restauração do projeto de origem.
+
+Para implementar outro perfil, siga [Como adicionar um perfil](docs/ADDING_PROFILES.md). Perfis escolhem o layout; não criam novas contas do YouTube ou Spotify e não substituem o mecanismo de recuperação Original.
 
 ## Compatibilidade
 
@@ -62,7 +64,7 @@ Em alguns firmwares TCL, é necessário permitir a execução em segundo plano:
 adb shell "appops set io.freemytv AUTO_START allow || appops set io.freemytv APP_AUTO_START allow"
 ```
 
-Na TV, abra **Free My TV → Home Screen → Free My TV** e autorize a chave de depuração do aplicativo. A troca mantém a arquitetura de recuperação do projeto original e pode desativar o launcher original e alguns aplicativos de sistema. Leia as [instruções do projeto de origem](https://github.com/simbasjungles/free-my-tv#install) antes de ativar. Não use listas genéricas de remoção de aplicativos de sistema.
+Na TV, abra **Free My TV → Home Screen → Dash Pessoal** e autorize a chave de depuração do aplicativo. A troca mantém a arquitetura de recuperação do projeto original e pode desativar o launcher original e alguns aplicativos de sistema. Leia as [instruções do projeto de origem](https://github.com/simbasjungles/free-my-tv#install) antes de ativar. Não use listas genéricas de remoção de aplicativos de sistema.
 
 Para o cartão de reprodução, habilite o widget Now Playing nas configurações; ele utiliza o acesso de sessão de mídia via componente de notificação do Android. Em TVs que exigirem a autorização via ADB:
 
