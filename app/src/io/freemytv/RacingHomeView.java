@@ -155,9 +155,10 @@ class RacingHomeView extends View implements HomeData.Listener {
         }catch(Exception e){showToast("Não foi possível abrir "+APPS[i]);}
     }
     protected void settings(){
-        new AlertDialog.Builder(activity).setTitle("Ajustes / After Dark").setItems(new String[]{"Free My TV · configurações e modo Original","Configurações da TV","Sobre a versão Racing"},(d,i)->{
-            if(i==0)activity.startActivity(new Intent(activity,SettingsActivity.class));
-            else if(i==1)HomeApps.open(activity,HomeApps.action(HomeApps.SETTINGS,HomeApps.TOP_SETTINGS,"Configurações","settings"),null);
+        new AlertDialog.Builder(activity).setTitle("Ajustes / "+Prefs.dashboardName()).setItems(new String[]{"Selecionar painel","Free My TV · configurações e modo Original","Configurações da TV","Sobre a versão Racing"},(d,i)->{
+            if(i==0)activity.startActivity(new Intent(activity,SettingsActivity.class).putExtra("dashboard_profiles",true));
+            else if(i==1)activity.startActivity(new Intent(activity,SettingsActivity.class));
+            else if(i==2)HomeApps.open(activity,HomeApps.action(HomeApps.SETTINGS,HomeApps.TOP_SETTINGS,"Configurações","settings"),null);
             else new AlertDialog.Builder(activity).setTitle("Painel Racing 2.0").setMessage("Versão pessoal baseada no Free My TV 1.5.\nClima: Open-Meteo. Agenda: Jolpica F1 e ESPN. Classificações: ESPN. Vídeos: canal oficial Formula 1, como exemplo. Spotify: sessão de mídia local do Android.\n\nSem resultados ao vivo. Horários de Brasília, sujeitos a alterações. As agendas da internet são consultadas no máximo a cada 6 horas e guardadas para uso offline.\n\nPara voltar à tela de fábrica: Free My TV → Home Screen → Original.").setPositiveButton("OK",null).show();
         }).show();
     }

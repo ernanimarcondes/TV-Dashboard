@@ -15,6 +15,12 @@ Uma tela inicial para Android TV, com fundo preto, cartões em grafite, rosa e r
 
 A primeira configuração de esportes é Palmeiras, Celtics e F1. O código permite personalização. As informações não são placares ao vivo. Fontes públicas podem mudar, ficar indisponíveis ou apresentar programação desatualizada.
 
+## Perfis de painel
+
+Em **Ajustes → Selecionar painel**, escolha **Dash Pessoal**, **Esportes Dash** ou **Original**. O Dash Pessoal preserva o painel existente. Esportes Dash é, por enquanto, uma tela de preparação para o próximo painel. O aplicativo lembra o último perfil escolhido; os aplicativos e as contas continuam compartilhados.
+
+A escolha também fica em **Free My TV → Home Screen**. Trocar entre os dois painéis não altera o modo da TV; Original continua usando o mecanismo de restauração do projeto de origem.
+
 ## Compatibilidade
 
 Android TV 8 ou superior. A interface foi testada em uma TCL C06 com Android 11 e resolução de interface 1280×720. O desenho é vetorial onde possível e ajusta o painel à resolução disponível. Compatibilidade com outros firmwares precisa ser verificada; instalar o APK não é o mesmo que habilitar a substituição da tela inicial.
@@ -95,4 +101,3 @@ Essa verificação ajuda a impedir arquivos indevidos e padrões conhecidos de c
 Escudos, capas, miniaturas e nomes de serviços pertencem aos respectivos titulares. Veja [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Sem afiliação com TCL, Google, Spotify, YouTube ou os campeonatos e equipes citados.
 
 <img width="1280" height="720" alt="image" src="https://github.com/user-attachments/assets/d372d26e-bb92-4f29-b168-1b4472aa1910" />
-

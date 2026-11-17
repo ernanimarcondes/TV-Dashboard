@@ -49,7 +49,8 @@ public class HomeActivity extends Activity {
             return;
         }
         Ui.init(this);
-        home = new DashboardHomeView(this);
+        home = Prefs.DASH_SPORTS.equals(Prefs.dashboardProfile())
+                ? new SportsHomeView(this) : new DashboardHomeView(this);
         setContentView(home);
         getWindow().setBackgroundDrawable(null);
         if (wantsAllApps(getIntent())) home.showAllApps();

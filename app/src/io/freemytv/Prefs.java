@@ -155,6 +155,22 @@ final class Prefs {
 
     static void setClockFormat(String v) { put("clock", v); }
 
+    static final String DASH_PERSONAL = "personal", DASH_SPORTS = "sports";
+
+    /** Layout selection only: apps, accounts and the Original recovery mode stay shared. */
+    static String dashboardProfile() {
+        return DASH_SPORTS.equals(sp().getString("dashboardProfile", DASH_PERSONAL)) ? DASH_SPORTS : DASH_PERSONAL;
+    }
+
+    static String dashboardName() {
+        return DASH_SPORTS.equals(dashboardProfile()) ? "Esportes Dash" : "Dash Pessoal";
+    }
+
+    static void setDashboardProfile(String profile) {
+        String valid = DASH_SPORTS.equals(profile) ? DASH_SPORTS : DASH_PERSONAL;
+        if (!valid.equals(dashboardProfile())) put("dashboardProfile", valid);
+    }
+
     /** The app's context in this process (null before App.onCreate). */
     static Context context() {
         return app;

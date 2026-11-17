@@ -83,6 +83,10 @@ public class SettingsActivity extends Activity {
         super.onResume();
         if (view == null) return;
         view.resume();
+        if (getIntent().getBooleanExtra("dashboard_profiles", false)) {
+            getIntent().removeExtra("dashboard_profiles");
+            view.openDashboardProfiles();
+        }
         // From ADB: am start -n io.freemytv/.SettingsActivity --ez screensaver true (straight to the preview).
         if (preview == null && getIntent().getBooleanExtra("screensaver", false)) {
             getIntent().removeExtra("screensaver");
@@ -328,7 +332,7 @@ public class SettingsActivity extends Activity {
                     if (row == 0) {
                         String busyText = busyText();
                         String value = busy() ? (busyText.isEmpty() ? Ui.tr("Starting…") : busyText)
-                                : freeActive() ? "Free My TV" : Ui.tr("Original");
+                                : freeActive() ? Prefs.dashboardName() : Ui.tr("Original");
                         return Ui.trf("Home Screen, {mode}", "mode", value);
                     }
                     String[] names = {Ui.tr("Screensaver, preview"), Ui.tr("Home Settings"),
@@ -337,11 +341,10 @@ public class SettingsActivity extends Activity {
                     return row - 1 < names.length ? names[row - 1] : "";
                 }
                 case HOME_CHOICE: {
-                    String name = row == 0 ? "Free My TV, " + (Capabilities.screensaver(getContext())
-                            ? Ui.tr("no ads, with the new screensaver") : Ui.tr("no ads"))
-                            : "Original, " + Ui.tr("the TV's factory home screen");
-                    boolean inUse = (row == 0) == freeActive();
-                    return name + (inUse ? Ui.tr(". In use") : "") + ", " + Ui.trf("{i} of {n}", "i", row + 1, "n", 2);
+                    String[] names = {"Dash Pessoal", "Esportes Dash", "Original"};
+                    int current = freeActive() ? (Prefs.DASH_SPORTS.equals(Prefs.dashboardProfile()) ? 1 : 0) : 2;
+                    return names[row] + (row == current ? Ui.tr(". In use") : "")
+                            + ", " + Ui.trf("{i} of {n}", "i", row + 1, "n", 3);
                 }
                 case HOME_SETTINGS:
                 case REMOTE_KEYS:
@@ -542,7 +545,7 @@ public class SettingsActivity extends Activity {
         private int rowCount() {
             switch (screen) {
                 case MAIN: return 9;
-                case HOME_CHOICE: return 2;
+                case HOME_CHOICE: return 3;
                 case HOME_SETTINGS: return Math.min(SETTINGS_VISIBLE, settingLabels().length);
                 case PICKER: return Math.min(PICK_VISIBLE, pickLabels.size());
                 case SHELF_EDIT: return Math.min(PICK_VISIBLE, shelfRows.size());
@@ -596,7 +599,7 @@ public class SettingsActivity extends Activity {
         private void drawMain(Canvas c, float seconds) {
             boolean working = busy();
             String busyText = busyText();
-            String mode = freeActive() ? "Free My TV" : Ui.tr("Original");
+            String mode = freeActive() ? Prefs.dashboardName() : Ui.tr("Original");
             String[] labels = {Ui.tr("Home Screen"), Ui.tr("Screensaver"),
                     Ui.tr("Home Settings"), Ui.tr("Shelf"), Ui.tr("Top Buttons"), Ui.tr("Inputs"),
                     Ui.tr("Remote Buttons"), Ui.tr("Sleep Timer"), Ui.tr("TV Settings")};
@@ -749,11 +752,11 @@ public class SettingsActivity extends Activity {
         private void drawChoice(Canvas c) {
             Paint heading = Ui.text(Ui.displaySemibold, 34 * k, 0xFFFFFFFF);
             c.drawText(Ui.tr("Home Screen"), LIST_X * k + 30 * k, (LIST_TOP - 24) * k, heading);
-            String free = Capabilities.screensaver(getContext()) ? Ui.tr("No ads, with the new screensaver") : Ui.tr("No ads");
-            String[][] options = {{"Free My TV", free},
+            String[][] options = {{"Dash Pessoal", "Seu painel atual, com esportes, música, vídeos e clima"},
+                    {"Esportes Dash", "Novo painel de esportes · em preparação"},
                     {Ui.tr("Original"), Ui.tr("The TV's factory home screen")}};
-            int current = freeActive() ? 0 : 1;
-            for (int i = 0; i < 2; i++) {
+            int current = freeActive() ? (Prefs.DASH_SPORTS.equals(Prefs.dashboardProfile()) ? 1 : 0) : 2;
+            for (int i = 0; i < options.length; i++) {
                 float y = (LIST_TOP + 20 + i * (CHOICE_H + ROW_GAP)) * k;
                 rowRect.set(LIST_X * k, y, LIST_R * k, y + CHOICE_H * k);
                 float f = drawRowBackground(c, i);
@@ -767,8 +770,10 @@ public class SettingsActivity extends Activity {
                 }
             }
             Paint hint = Ui.text(Ui.regular, 23 * k, 0x8CFFFFFF);
-            c.drawText(Ui.tr("Switching takes a few seconds; the screen blinks while it measures."), LIST_X * k + 30 * k,
-                    (LIST_TOP + 20 + 2 * (CHOICE_H + ROW_GAP) + 40) * k, hint);
+            c.drawText("Trocar de painel mantém seus aplicativos e contas.", LIST_X * k + 30 * k,
+                    (LIST_TOP + 20 + 3 * (CHOICE_H + ROW_GAP) + 40) * k, hint);
+            c.drawText("Alternar para Original pode levar alguns segundos.", LIST_X * k + 30 * k,
+                    (LIST_TOP + 20 + 3 * (CHOICE_H + ROW_GAP) + 76) * k, hint);
         }
 
         private static int blend(int a, int b, float f) {
@@ -2478,11 +2483,31 @@ public class SettingsActivity extends Activity {
             }
         }
 
+        void openDashboardProfiles() {
+            state = HomeMode.state(getContext());
+            if (busy()) return;
+            screen = HOME_CHOICE;
+            pickScroll = 0;
+            focus = freeActive() ? (Prefs.DASH_SPORTS.equals(Prefs.dashboardProfile()) ? 1 : 0) : 2;
+            invalidate();
+            spoken.focusMoved();
+        }
+
         private void activate() {
             Context c = getContext();
             if (tellWhy()) return;
             if (screen == HOME_CHOICE) {
-                boolean wantFree = focus == 0;
+                if (busy()) return;
+                boolean wantFree = focus < 2;
+                if (wantFree) {
+                    Prefs.setDashboardProfile(focus == 1 ? Prefs.DASH_SPORTS : Prefs.DASH_PERSONAL);
+                    if (freeActive()) {
+                        activity.startActivity(new Intent(activity, HomeActivity.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                        activity.finish();
+                        return;
+                    }
+                }
                 boolean already = wantFree ? freeActive() : HomeMode.ORIGINAL.equals(state.optString("mode", HomeMode.ORIGINAL));
                 if (!already && !busy()) {
                     requestedAt = HomeMode.request(c, wantFree ? HomeMode.FREE : HomeMode.ORIGINAL);
@@ -2577,8 +2602,7 @@ public class SettingsActivity extends Activity {
                 return;
             } else if (focus == 0) {
                 if (busy()) return;
-                screen = HOME_CHOICE;
-                focus = freeActive() ? 0 : 1;
+                openDashboardProfiles();
             } else if (focus == 1) {
                 pause();
                 activity.showPreview();
